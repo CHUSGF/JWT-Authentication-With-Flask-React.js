@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { useHistory } from "react-router-dom";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
+  let history = useHistory();
 
   return (
     <nav className="navbar navbar-light bg-light">
@@ -19,7 +21,9 @@ export const Navbar = () => {
             </Link>
           </div>
         ) : (
-          <button>Logout</button>
+          <button onClick={() => actions.logout(() => history.push("/"))}>
+            Logout
+          </button>
         )}
       </div>
     </nav>

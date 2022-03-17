@@ -2,10 +2,13 @@ import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
+import { useHistory } from "react-router-dom";
 
 export const Register = () => {
   const { store, actions } = useContext(Context);
   const [user, setUser] = useState({});
+  let history = useHistory();
+
   return (
     <div className="text-center mt-5">
       <input
@@ -23,7 +26,7 @@ export const Register = () => {
       <button
         onClick={async () => {
           const response = await fetch(
-            "https://3001-4geeksacademy-reactflask-hxxcrcs816f.ws-eu34.gitpod.io/api/register",
+            "https://3001-4geeksacademy-reactflask-hxxcrcs816f.ws-eu38.gitpod.io/api/register",
             {
               method: "POST",
               headers: {
@@ -33,6 +36,12 @@ export const Register = () => {
             }
           );
           const data = await response.json();
+          if (data.token) {
+            localStorage.setItem("token", data.token);
+            history.push("/protected");
+          } else {
+            alert("error");
+          }
         }}
       >
         register

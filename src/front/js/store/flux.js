@@ -1,13 +1,15 @@
+import { Redirect } from "react-router-dom";
+
 const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
-      logged: true,
+      logged: false,
     },
     actions: {
       // Use getActions to call a function within a fuction
       validate: async () => {
         const response = await fetch(
-          "https://3001-4geeksacademy-reactflask-hxxcrcs816f.ws-eu34.gitpod.io/api/validate",
+          "https://3001-4geeksacademy-reactflask-hxxcrcs816f.ws-eu38.gitpod.io/api/validate",
           {
             method: "get",
             headers: {
@@ -19,6 +21,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         console.log(data.validate);
         setStore({ logged: data.validate });
         return data.validate;
+      },
+      logout: (redirectToLogin) => {
+        setStore({ logged: false });
+        localStorage.removeItem("token");
+        redirectToLogin();
       },
     },
   };
